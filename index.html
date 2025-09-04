@@ -29,9 +29,10 @@
   
   <script>
     let inventoryList = [];
+    const webAppURL = "https://script.google.com/macros/s/AKfycbzoYc2bMLj4fQ5m-xU9x2qfcZIOdsQY4ZGkLThA8wdKrwz61CCLC3-B-uZN4tBA1BFV/exec"; // <-- Replace with your Apps Script Web App URL
 
-    // Load inventory dynamically from Google Sheet
-    fetch("https://script.google.com/macros/s/AKfycbzoYc2bMLj4fQ5m-xU9x2qfcZIOdsQY4ZGkLThA8wdKrwz61CCLC3-B-uZN4tBA1BFV/exec") // <-- Replace with your Web App URL
+    // Load inventory dynamically
+    fetch(webAppURL)
       .then(response => response.json())
       .then(data => {
         inventoryList = data;
@@ -62,7 +63,7 @@
         return;
       }
 
-      fetch("YOUR_WEB_APP_URL_HERE", {
+      fetch(webAppURL, {
         method: "POST",
         body: JSON.stringify({ id: id, name: name, qty: qty })
       })
@@ -78,6 +79,3 @@
   </script>
 </body>
 </html>
-
-
-
