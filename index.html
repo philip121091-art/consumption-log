@@ -31,7 +31,7 @@
     let inventoryList = [];
 
     // Load inventory dynamically from Google Sheet
-    fetch(https://script.google.com/macros/s/AKfycbzoYc2bMLj4fQ5m-xU9x2qfcZIOdsQY4ZGkLThA8wdKrwz61CCLC3-B-uZN4tBA1BFV/exec) // <-- Replace with your Web App URL
+    fetch("https://script.google.com/macros/s/AKfycbzoYc2bMLj4fQ5m-xU9x2qfcZIOdsQY4ZGkLThA8wdKrwz61CCLC3-B-uZN4tBA1BFV/exec") // <-- Replace with your Web App URL
       .then(response => response.json())
       .then(data => {
         inventoryList = data;
@@ -78,4 +78,5 @@
   </script>
 </body>
 </html>
+
 
