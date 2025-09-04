@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consumption Log</title>
+  <style>
+    body { font-family: Arial; max-width: 400px; margin: 20px; }
+    label { display: block; margin-top: 10px; }
+    select, input, button { width: 100%; padding: 10px; margin-top: 5px; font-size: 16px; }
+    button { background: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <h2>Consumption Log Form</h2>
+  
+  <label for="inventoryID">Inventory ID:</label>
+  <select id="inventoryID" onchange="fillName()">
+    <option value="">Loading...</option>
+  </select>
+  
+  <label for="inventoryName">Inventory Name:</label>
+  <input type="text" id="inventoryName" readonly>
+  
+  <label for="quantity">Quantity Consumed:</label>
+  <input type="number" id="quantity" placeholder="Enter quantity">
+  
+  <button onclick="submitForm()">Submit</button>
+  
+  <script>
+    let inventoryList = [];
+
+    // Load inventory dynamically from Google Sheet
+    fetch("YOUR_WEB_APP_URL_HERE") // <-- Replace with your Web App URL
+      .then(response => response.json())
+      .then(data => {
+        inventoryList = data;
+        const select = document.getElementById("inventoryID");
+        select.innerHTML = '<option value="">--Select--</option>';
+        data.forEach(item => {
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.id;
+          select.appendChild(option);
+        });
+      })
+      .catch(err => alert("Failed to load inventory: " + err));
+
+    function fillName() {
+      const id = document.getElementById("inventoryID").value;
+      const item = inventoryList.find(i => i.id === id);
+      document.getElementById("inventoryName").value = item ? item.name : "";
+    }
+
+    function submitForm() {
+      const id = document.getElementById("inventoryID").value;
+      const name = document.getElementById("inventoryName").value;
+      const qty = document.getElementById("quantity").value;
+
+      if (!id || !qty) {
+        alert("Please select Inventory ID and enter Quantity.");
+        return;
+      }
+
+      fetch("YOUR_WEB_APP_URL_HERE", {
+        method: "POST",
+        body: JSON.stringify({ id: id, name: name, qty: qty })
+      })
+      .then(res => res.text())
+      .then(res => {
+        alert("Entry Saved!");
+        document.getElementById("inventoryID").value = "";
+        document.getElementById("inventoryName").value = "";
+        document.getElementById("quantity").value = "";
+      })
+      .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
